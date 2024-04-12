@@ -11,7 +11,7 @@ This repo contains a Java implementation of our algorithm CCMGPSO, an algorithm 
 Many problems that are encountered in real-life applications consist of two or three conflicting objectives and many decision variables. Multi-guide particle swarm optimization (MGPSO) is a novel meta-heuristic for multi-objective optimization based on particle swarm optimization (PSO). MGPSO has been shown to be competitive when compared with other state-of-the-art multi-objective optimization algorithms for low-dimensional (and even many-objective) problems. However, a recent study has shown that MGPSO does not scale well when the number of decision variables is increased. This paper proposes a new scalable MGPSO-based algorithm, termed cooperative coevolutionary multi-guide particle swarm optimization (abbreviated as CCMGPSO), that incorporates ideas from cooperative coevolution (CC). CCMGPSO uses new techniques to spend less computational budget by periodically assigning only one CC-based subswarm to each objective (as opposed to using numerous CC-based subswarms). Results show that the proposed CCMGPSO is highly competitive for high-dimensional problems with reference to the inverted generational distance (IGD) metric.
 
 ### Accessing the Paper
-A preprint of the paper is avaible on this repo. 
+A preprint of the paper is avaible on this repo. To access the preprint, please refer to `CCMGPSO/ccmgpso_manuscript.pdf`.
 
 ------------------------------------------------------
 ## Acknowledgements and Citations 
