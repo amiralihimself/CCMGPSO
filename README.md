@@ -1,4 +1,4 @@
-# CCMGPSO
+# Cooperative Coevolutionary Multi-Guide Particle Swarm Optimization (CCMGPSO) 
 A Java implementation of CCMGPSO, an algorithm for solving large-scale multi-objective optimization problems. 
 -------------------------------------------------------------------------------------------------------------------------------
 
