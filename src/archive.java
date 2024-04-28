@@ -69,5 +69,67 @@ public class archive {
             }
         }
     }
+
+    private void removeDominatedSolutions(ArrayList<double[]> normalizedArchive){
+
+        int [] dominationCounter= new int[normalizedArchive.size()];
+        ArrayList<Integer> indicesToRemove=new ArrayList<>();
+        for (int solution1=0; solution1< normalizedArchive.size(); solution1++){
+            double[] objectives1= normalizedArchive.get(solution1);
+            for (int solution2=0; solution2< normalizedArchive.size(); solution2++){
+                double[] objectives2= normalizedArchive.get(solution2);
+                if(solution1!= solution2){
+
+                    if(checkIfDominates(objectives2, objectives1)){
+
+                        dominationCounter[solution1]++;
+                    }
+                }
+            }
+
+            if (dominationCounter[solution1]>0){
+                indicesToRemove.add(solution1);
+            }
+
+        }
+        Collections.reverse(indicesToRemove);
+        for (int i=0; i< indicesToRemove.size();i++){
+
+            int indexToRemove= indicesToRemove.get(i);
+            normalizedArchive.remove(indexToRemove);
+            archiveParticles.remove(indexToRemove);
+        }
+
+    }
+    private void removeDominatedSolutions(){
+
+        int [] dominationCounter= new int[archiveParticles.size()];
+        ArrayList<Integer> indicesToRemove=new ArrayList<>();
+        for (int solution1=0; solution1< archiveParticles.size(); solution1++){
+            double[] objectives1= archiveParticles.get(solution1).getObjectives();
+            for (int solution2=0; solution2< archiveParticles.size(); solution2++){
+                double[] objectives2= archiveParticles.get(solution2).getObjectives();
+                if(solution1!= solution2){
+
+                    if(checkIfDominates(objectives2, objectives1)){
+
+                        dominationCounter[solution1]++;
+                    }
+                }
+            }
+
+            if (dominationCounter[solution1]>0){
+                indicesToRemove.add(solution1);
+            }
+
+        }
+        Collections.reverse(indicesToRemove);
+        for (int i=0; i< indicesToRemove.size();i++){
+
+            int indexToRemove= indicesToRemove.get(i);
+            archiveParticles.remove(indexToRemove);
+        }
+
+    }
 }
 
