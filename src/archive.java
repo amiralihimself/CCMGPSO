@@ -58,5 +58,16 @@ public class archive {
         applyDominanceResistanceError(normalizedArchive);
         removeDominatedSolutions(normalizedArchive);
     }
+
+    private void applyDominanceResistanceError(ArrayList<double[]> normalizedArchive){
+        for (int i=0; i< normalizedArchive.size(); i++){
+            double [] normalizedObjectives= normalizedArchive.get(i);
+            for(int j=0; j< num_objectives; j++){
+                if (normalizedObjectives[j]< 3e-6){
+                    normalizedObjectives[j]=0;
+                }
+            }
+        }
+    }
 }
 
