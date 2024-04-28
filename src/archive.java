@@ -38,5 +38,25 @@ public class archive {
 
     }
 
+    public void maintainArchive(){
+        double[] maximumPerObjective=new vectorOperators().getMaximumOfEachObjective(archiveParticles.toArray(new particle[archiveParticles.size()]), num_objectives);
+        double[]  minimumPerObjective=new vectorOperators().getMinimumOfEachObjective(archiveParticles.toArray(new particle[archiveParticles.size()]), num_objectives);
+        double[] maxMinusMin= new vectorOperators().elementWiseSubtraction(maximumPerObjective, minimumPerObjective);
+        ArrayList<double[]> normalizedArchive= new ArrayList<>();
+        for (int i=0; i< archiveParticles.size(); i++){
+            double [] objectives= archiveParticles.get(i).getObjectives().clone();
+            double [] part1=new vectorOperators().elementWiseSubtraction(objectives, minimumPerObjective);
+            double [] normalizedObjectives= new vectorOperators().elementWiseDivision(part1, maxMinusMin);
+            for(int j=0; j< normalizedObjectives.length; j++){
+                if(maxMinusMin[j]==0){
+                    normalizedObjectives[j]=0.25;
+                    //normalizedObjectives[j]= ((double)1)/ (double) normalizedArchive.size();
+                }
+            }
+            normalizedArchive.add(normalizedObjectives);
+        }
+        applyDominanceResistanceError(normalizedArchive);
+        removeDominatedSolutions(normalizedArchive);
+    }
 }
 
