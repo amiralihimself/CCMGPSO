@@ -51,6 +51,36 @@ public class CCMGPSO extends cooperativeMGPSO{
         counter=0;
 
     }
+    private void initSwarms(){
+        int[] dimensionIndicesShuffled=new vectorOperators().Fisher_YatesShuffle(numDimensions);
+        int K_1= numDimensions % numDimensionGroups;
+        miniSubSwarms=new swarm[numDimensionGroups];
+        int dimensionsOfFirstGroup= (int) Math.ceil((double) numDimensions/ (double) numDimensionGroups);
+        int dimensionsOfSecondGroup= (int) Math.floor((double) numDimensions/ (double) numDimensionGroups);
+        int currentIndex=0;
+        for(int dimensionGroup=0; dimensionGroup<numDimensionGroups; dimensionGroup++){
+            swarm Swarm;
+            if (dimensionGroup<K_1){
+                Swarm= new swarm( numParticles, dimensionsOfFirstGroup,  numObjectives,  omega,
+                        optimizationProblem,
+                        Arrays.copyOfRange(dimensionIndicesShuffled, currentIndex,currentIndex+dimensionsOfFirstGroup));
 
+                currentIndex+=dimensionsOfFirstGroup;
+
+            }
+
+            else {
+                Swarm= new swarm( numParticles,  dimensionsOfSecondGroup,  numObjectives,  omega,
+                        optimizationProblem,
+                        Arrays.copyOfRange(dimensionIndicesShuffled, currentIndex,currentIndex+dimensionsOfSecondGroup));
+
+                currentIndex+=dimensionsOfSecondGroup;
+
+
+            }
+            miniSubSwarms[dimensionGroup]=Swarm;
+
+        }
+    }
 
 }
