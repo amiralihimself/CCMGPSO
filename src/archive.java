@@ -131,5 +131,43 @@ public class archive {
         }
 
     }
+
+    public void addToArchive(double [] objectives, double [] positions){
+        double [] prospectiveParticle=objectives.clone();
+        double [] position= positions.clone();
+        // first, let's check if the prospective particle is dominated by any other particles already in the archive
+        boolean newParticleIsDominated= false;
+        for (int particleIndex=0; particleIndex<archiveParticles.size(); particleIndex++){
+            double [] archiveParticleValues=archiveParticles.get(particleIndex).getObjectives();
+            if(checkIfDominates(archiveParticleValues, prospectiveParticle) || Arrays.equals(archiveParticleValues, prospectiveParticle)){
+                newParticleIsDominated=true;
+                break;
+            }
+
+
+        }
+
+        if(!newParticleIsDominated){
+
+            //now that we are here, ne particle is not dominated by any of the particles in the archive
+            // let's remove particles that are dominated by this new particle
+            LinkedList<particle> archiveParticlesTemp= new LinkedList<>();
+            for (int index=0; index< archiveParticles.size(); index++){
+                double [] archiveParticleValues= archiveParticles.get(index).getObjectives();
+                if(!checkIfDominates(prospectiveParticle, archiveParticleValues)){
+                    archiveParticlesTemp.add((archiveParticles.get(index)));
+                }
+            }
+            particle newParticle =new particle(prospectiveParticle, position);
+            archiveParticlesTemp.add(newParticle);
+            archiveParticles= (LinkedList) archiveParticlesTemp.clone();
+            // if the number of the particles in the archive exceeds the maximum, remove the worst (the lowest crowding distance)
+            if (archiveParticles.size()>archiveSize){
+                removeTheWorstSolution();
+            }
+            updateCrowdingDistances();
+        }
+
+    }
 }
 
