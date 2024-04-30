@@ -82,5 +82,32 @@ public class CCMGPSO extends cooperativeMGPSO{
 
         }
     }
+    private void initContextVectors(){
+
+        for (int i=0; i<allContextVectors.length;i++){
+            for(int dimension=0;dimension<numDimensions;dimension++){
+
+                double lowerBound=optimizationProblem.getLowerBoundForDimension(dimension);
+                double upperBound=optimizationProblem.getUpperBoundForDimension(dimension);
+                allContextVectors[i][dimension]=lowerBound+ (upperBound-lowerBound)*new Random().nextDouble();
+
+            }
+            contextVectorObjectives[i]=optimizationProblem.evaluate(allContextVectors[i]);
+
+        }
+
+    }
+
+    private double [] b(int contextVectorIndex, int[] dimensionIndices, double[] valuesToUse){
+        double [] contextVector= allContextVectors[contextVectorIndex].clone();
+
+        for (int index=0; index <dimensionIndices.length; index++){
+
+            contextVector[dimensionIndices[index]]=valuesToUse[index];
+        }
+
+        return contextVector;
+    }
+
 
 }
