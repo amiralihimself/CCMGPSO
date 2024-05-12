@@ -182,4 +182,49 @@ public class CCMGPSO extends cooperativeMGPSO{
         System.out.println(counter);
     }
 
+    private void runMiniSubSwarms(int objectiveToMinimize, int contextVectorIndex) {
+        double contextFitness2 = contextVectorObjectives[contextVectorIndex][objectiveToMinimize];
+        if(contextFitness2==0){
+            counter++;
+        }
+        for (int dimensionGroup = 0; dimensionGroup < numDimensionGroups; dimensionGroup++) {
+            swarm Swarm = miniSubSwarms[dimensionGroup];
+            int numParticles = Swarm.getNum_particles();
+            int[] dimensionIndices = Swarm.getDimensionGroupIndices();
+            for (int particleIndex = 0; particleIndex < numParticles; particleIndex++) {
+                particle Particle = Swarm.getParticle(particleIndex);
+                double[] currentPosition = Particle.getPosition().clone();
+                double[] vectorToEvaluate = b(contextVectorIndex, dimensionIndices, currentPosition);
+                double[] evaluationResult = optimizationProblem.evaluate(vectorToEvaluate);
+                numOfEvaluations++;
+                double personalBest = Particle.getPbest();
+
+                if (evaluationResult[objectiveToMinimize] < personalBest) {
+                    Particle.setPbest(evaluationResult[objectiveToMinimize]);
+                    Particle.setPbest_position(currentPosition);
+                }
+                double contextFitness = contextVectorObjectives[contextVectorIndex][objectiveToMinimize];
+
+                if (evaluationResult[objectiveToMinimize] < contextFitness) {
+                    allContextVectors[contextVectorIndex] = vectorToEvaluate.clone();
+                    contextVectorObjectives[contextVectorIndex]=evaluationResult.clone();
+                }
+                else if (evaluationResult[objectiveToMinimize] == contextFitness){
+
+                    if(!new vectorOperators().checkIfDominates(contextVectorObjectives[contextVectorIndex].clone(), evaluationResult)){
+                        allContextVectors[contextVectorIndex] = vectorToEvaluate.clone();
+                        contextVectorObjectives[contextVectorIndex]=evaluationResult.clone();
+                    }
+
+                }
+
+
+                Particle.setObjectives(evaluationResult.clone());
+                Archive.addToArchive(evaluationResult, vectorToEvaluate.clone());
+
+
+            }
+
+        }
+    }
 }
