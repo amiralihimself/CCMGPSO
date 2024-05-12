@@ -108,6 +108,78 @@ public class CCMGPSO extends cooperativeMGPSO{
 
         return contextVector;
     }
+    protected void algorithm() {
+        String fileName="";
 
+        fileName=optimizationProblem.getProblemName().toUpperCase().concat(".").concat(Integer.toString(numObjectives)).concat("D.pf");
+        qualityIndicator QualityIndicator=new qualityIndicator(fileName);
+        initSwarms();
+        initContextVectors();
+        for (int objective=0; objective< numObjectives; objective++){
+            swarm Swarm2=  new swarm( 10,  numDimensions,  numObjectives,
+                    optimizationProblem);
+            swarmsNDimensional[objective]=Swarm2;}
+        int objectiveToMinimize=-1;
+        int contextVectorIndex=0;
+
+        for (int iteration=0; iteration<numIterations;iteration++){
+            //Archive.printArchive();
+            //  System.out.println(runNumber);
+            // System.out.println(iteration);
+            for (int objectiveIndex=0; objectiveIndex< numObjectives; objectiveIndex++){
+                swarm Swarm= swarmsNDimensional[objectiveIndex];
+                int randomIndex  = ThreadLocalRandom.current().nextInt(0, Swarm.getNum_particles());
+                Swarm.getParticle(randomIndex).setPosition(allContextVectors[contextVectorIndex].clone());
+                double globalBest=Swarm.getGlobalBest();
+                for (int particleIndex=0; particleIndex < Swarm.getNum_particles(); particleIndex++){
+                    particle Particle= Swarm.getParticle(particleIndex);
+                    double[] currentPosition= Particle.getPosition().clone();
+                    double [] evaluationResult= optimizationProblem.evaluate(currentPosition);
+                    double personalBest= Particle.getPbest();
+                    numOfEvaluations++;
+                    if (evaluationResult[objectiveIndex] < personalBest){
+                        Particle.setPbest(evaluationResult[objectiveIndex]);
+                        Particle.setPbest_position(currentPosition.clone());
+
+                    }
+                    if (evaluationResult[objectiveIndex] <globalBest){
+                        Swarm.setGlobalBest(evaluationResult[objectiveIndex]);
+                        Swarm.setGbestPosition(currentPosition.clone());
+
+                    }
+
+
+                    Particle.setObjectives(evaluationResult.clone());
+                    Archive.addToArchive(evaluationResult.clone(), currentPosition.clone());
+                }
+
+            }
+            if(iteration%(numObjectives*iterationsPerObjective)==0){
+                initSwarms();
+            }
+            if (iteration%iterationsPerObjective==0){
+                resetPersonalBests();
+                contextVectorIndex  = ThreadLocalRandom.current().nextInt(0, allContextVectors.length);
+                temp[contextVectorIndex]+=iterationsPerObjective;
+            }
+            int temp= iteration/iterationsPerObjective;
+            objectiveToMinimize=temp%numObjectives;
+
+            runMiniSubSwarms(objectiveToMinimize, contextVectorIndex);
+            updateVelocity( contextVectorIndex);
+            updatePosition();
+            updateVelocityNDimensional();
+            updatePositionNDimensional();
+        }
+
+
+        Archive.printArchive();
+        QualityIndicator.calculateAndSaveMetrics((LinkedList) Archive.getArchiveParticles().clone());
+        System.out.println(Archive.getArchiveSize());
+        new JsonSimpleWriter().saveFinal(runNumber, optimizationProblem.getProblemName(), Archive.getArchiveParticles(), numDimensions, numObjectives, typeOfFunction, QualityIndicator.getIGD(), 0);
+        System.out.println(numOfEvaluations);
+        System.out.println(Arrays.toString(temp));
+        System.out.println(counter);
+    }
 
 }
