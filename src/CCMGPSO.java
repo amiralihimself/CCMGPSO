@@ -227,4 +227,36 @@ public class CCMGPSO extends cooperativeMGPSO{
 
         }
     }
+
+    protected void updatePosition() {
+        for (int dimensionGroup=0; dimensionGroup< numDimensionGroups; dimensionGroup++){
+            swarm Swarm=miniSubSwarms[dimensionGroup];
+            int [] dimensionIndices=Swarm.getDimensionGroupIndices();
+            int numParticles= Swarm.getNum_particles();
+            for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
+                particle Particle= Swarm.getParticle(particleIndex);
+                double [] currentPosition=Particle.getPosition();
+                double [] velocity= Particle.getVelocity().clone();
+                double [] newPosition= new double[dimensionIndices.length];
+
+                for (int dimension=0; dimension< dimensionIndices.length; dimension++){
+                    newPosition[dimension]=currentPosition[dimension]+velocity[dimension];
+                    double lowerBound=optimizationProblem.getLowerBoundForDimension(dimensionIndices[dimension]);
+                    double upperBound=optimizationProblem.getUpperBoundForDimension(dimensionIndices[dimension]);
+
+                    if(newPosition[dimension]<lowerBound){
+                        newPosition[dimension]=lowerBound;
+                    }
+                    if(newPosition[dimension]>upperBound){
+                        newPosition[dimension]=upperBound;
+                    }
+
+                }
+                Particle.setPosition(newPosition.clone());
+            }
+
+
+        }
+
+    }
 }
