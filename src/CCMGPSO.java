@@ -259,4 +259,44 @@ public class CCMGPSO extends cooperativeMGPSO{
         }
 
     }
+    protected void updateVelocity() {
+        for (int dimensionGroup=0; dimensionGroup< numDimensionGroups; dimensionGroup++){
+            swarm Swarm= miniSubSwarms[dimensionGroup];
+            int [] dimensionIndices=Swarm.getDimensionGroupIndices();
+            int numParticles= Swarm.getNum_particles();
+            double [] globalBest= Swarm.getGbestPosition();
+            for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
+                particle Particle= Swarm.getParticle(particleIndex);
+                double [] personalBest= Particle.getPbest_position();
+                double [] currentPosition=Particle.getPosition();
+                double lambda= Particle.getLambda();
+
+                Random randomr1= new Random();
+                Random randomr2= new Random();
+                Random randomr3=new Random();
+                double [] velocity= Particle.getVelocity();
+                double [] newVelocity= new double[dimensionIndices.length];
+                double [] archiveGuide= trimArray(Archive.getArchiveGuide(tournamentSize), dimensionIndices);
+                for (int dimension=0; dimension< dimensionIndices.length; dimension++){
+                    double cognitiveTerm;
+                    double socialTerm;
+                    double archiveTerm;
+                    double r1=randomr1.nextDouble();
+                    double r2=randomr2.nextDouble();
+                    double r3=randomr3.nextDouble();
+
+                    cognitiveTerm=r1*this.c1*(personalBest[dimension]-currentPosition[dimension]);
+                    socialTerm=r2*this.c2*lambda*(globalBest[dimension]-currentPosition[dimension]);
+                    archiveTerm=r3*this.c3*(1-lambda)*(archiveGuide[dimension]-currentPosition[dimension]);
+                    newVelocity[dimension]=(this.omega*velocity[dimension])+cognitiveTerm+socialTerm+archiveTerm;
+
+                }
+                Particle.setVelocity(newVelocity);
+
+            }
+
+        }
+    }
+
+
 }
