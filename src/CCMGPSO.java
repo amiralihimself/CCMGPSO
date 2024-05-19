@@ -374,6 +374,50 @@ public class CCMGPSO extends cooperativeMGPSO{
         }
     }
 
+    protected void updateVelocityNDimensional() {
+        for (int objective=0; objective< numObjectives; objective++){
+            swarm Swarm= swarmsNDimensional[objective];
+            int numParticles= Swarm.getNum_particles();
+            double [] globalBest= Swarm.getGbestPosition();
+            for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
+                particle Particle= Swarm.getParticle(particleIndex);
+                double [] personalBest= Particle.getPbest_position();
+                double [] currentPosition=Particle.getPosition();
+                double lambda= Particle.getLambda();
+                Random randomr1= new Random();
+                Random randomr2= new Random();
+                Random randomr3=new Random();
+                double [] velocity= Particle.getVelocity();
+                double [] newVelocity= new double[numDimensions];
+                double [] archiveGuide= Archive.getArchiveGuide(tournamentSize);
+
+
+
+                c1=1.5+ (2-1.5)*new Random().nextDouble();
+                c2=1.5+ (2-1.5)*new Random().nextDouble();
+                c3=1.5+ (2-1.5)*new Random().nextDouble();
+                omega=0.1+ (0.5-0.1)*new Random().nextDouble();
+                for (int dimension=0; dimension< numDimensions; dimension++){
+                    double cognitiveTerm;
+                    double socialTerm;
+                    double archiveTerm;
+                    double r1=randomr1.nextDouble();
+                    double r2=randomr2.nextDouble();
+                    double r3=randomr3.nextDouble();
+
+                    cognitiveTerm=r1*this.c1*(personalBest[dimension]-currentPosition[dimension]);
+                    socialTerm=r2*this.c2*lambda*(globalBest[dimension]-currentPosition[dimension]);
+                    archiveTerm=r3*this.c3*(1-lambda)*(archiveGuide[dimension]-currentPosition[dimension]);
+
+                    newVelocity[dimension]=(this.omega*velocity[dimension])+cognitiveTerm+socialTerm+archiveTerm;
+
+                }
+                Particle.setVelocity(newVelocity);
+
+            }
+
+        }
+    }
 
 
 }
