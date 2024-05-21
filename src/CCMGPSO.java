@@ -419,5 +419,14 @@ public class CCMGPSO extends cooperativeMGPSO{
         }
     }
 
+    private void resetPersonalBests(){
+        for(int dimensionGroup=0; dimensionGroup< numDimensionGroups;dimensionGroup++){
+            for (int particleIndex=0; particleIndex< numParticles; particleIndex++){
+                miniSubSwarms[dimensionGroup].getParticle(particleIndex).setPbest(Double.MAX_VALUE);
+            }
+        }
+
+    }
+
 
 }
