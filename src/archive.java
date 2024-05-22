@@ -169,5 +169,41 @@ public class archive {
         }
 
     }
+    public void updateCrowdingDistances(){
+        for (int i=0; i<archiveParticles.size();i++){
+            archiveParticles.get(i).crowdingDistance=0;
+        }
+        // now for each objective I have to sort the archive based on its (the objective's) value
+        for(int objective=0; objective<num_objectives;objective++){
+            final int objectiveIndex=objective;
+            Collections.sort(archiveParticles, new Comparator<particle>() {
+                @Override
+                public int compare(particle o1, particle o2) {
+                    return Double.compare(o1.getObjectives()[objectiveIndex],o2.getObjectives()[objectiveIndex]);
+                }
+            });
+
+            archiveParticles.get(0).crowdingDistance=Double.MAX_VALUE;
+            archiveParticles.getLast().crowdingDistance=Double.MAX_VALUE;
+            // so that the boundary point always get selected
+            for (int particleIndex=1; particleIndex<archiveParticles.size()-1; particleIndex++){
+                if(archiveParticles.get(particleIndex).crowdingDistance!=Double.MAX_VALUE){
+                    //to avoid overflow
+                    double minimumValue=archiveParticles.get(0).getObjectives()[objectiveIndex];
+                    double maximumValue=archiveParticles.getLast().getObjectives()[objectiveIndex];
+
+                    double valueOnTheLeft=archiveParticles.get(particleIndex-1).getObjectives()[objectiveIndex];
+                    double valueOnTheRight=archiveParticles.get(particleIndex+1).getObjectives()[objectiveIndex];
+                    archiveParticles.get(particleIndex).crowdingDistance += ((valueOnTheRight-valueOnTheLeft));
+
+
+                }
+            }
+
+
+        }
+
+    }
+
 }
 
