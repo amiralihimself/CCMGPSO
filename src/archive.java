@@ -204,6 +204,26 @@ public class archive {
         }
 
     }
+    public boolean checkIfDominates(double [] solution1, double[] solution2){
+        // this returns true if solution1 dominates solution2
+        boolean dominated=false;
+        int numberOfBetterObjectives=0;
+        int objective=0;
+        for (; objective<num_objectives;objective++){
+            if (solution1[objective]>solution2[objective]){
+                break;
+            }
+            else{
+                if(solution1[objective]<solution2[objective]){
+                    numberOfBetterObjectives=numberOfBetterObjectives+1;
+                }
+            }
+        }
+        if(objective==num_objectives&& numberOfBetterObjectives>0){
+            dominated=true;
+        }
+        return dominated ;
+    }
 
 }
 
