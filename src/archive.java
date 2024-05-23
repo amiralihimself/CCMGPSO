@@ -225,5 +225,35 @@ public class archive {
         return dominated ;
     }
 
+    public double [] getArchiveGuide(int k){
+        // lets use tournament selection with crowding distance
+        // k is the number of particles or solutions to choose for the tournament
+        // the one with the highest crowding distance wins
+        //https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ThreadLocalRandom.html#nextInt(int,int)
+        int archiveCurrentSize= this.archiveParticles.size();
+        double [] listToReturn=new double[this.num_dimensions];
+        double maximumCrowdingDistance=0.0;
+        // updateCrowdingDistances();
+
+        for (int i=0; i<k; i++){
+            int randomIndex = ThreadLocalRandom.current().nextInt(0, archiveCurrentSize);
+            particle solution=archiveParticles.get(randomIndex);
+            double particleCrowdingDistance=archiveParticles.get(randomIndex).crowdingDistance;
+
+            if (i==0){
+                maximumCrowdingDistance= particleCrowdingDistance;
+                listToReturn=solution.getPosition();
+            }
+            else{
+                if (particleCrowdingDistance > maximumCrowdingDistance){
+                    maximumCrowdingDistance= particleCrowdingDistance;
+                    listToReturn=solution.getPosition();
+                }
+            }
+        }
+
+        return listToReturn.clone();
+    }
+
 }
 
