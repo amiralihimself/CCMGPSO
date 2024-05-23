@@ -254,6 +254,22 @@ public class archive {
 
         return listToReturn.clone();
     }
+    public void printArchive(){
+        for(int particleIndex=0; particleIndex < archiveParticles.size(); particleIndex++) {
 
+            System.out.println(Arrays.toString(archiveParticles.get(particleIndex).getObjectives()));
+
+        }
+
+
+    }
+    public void addAllParticles(ArrayList<particle> undominatedParticles){
+        archiveParticles.addAll(undominatedParticles);
+        removeDominatedSolutions();
+        while (archiveParticles.size()> archiveSize){
+            removeTheWorstSolution();
+        }
+
+    }
 }
 
