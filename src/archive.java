@@ -292,5 +292,19 @@ public class archive {
         }
         return eliteParticles;
     }
+
+    public double[] getIdealVector(){
+        double[] vector=new double[num_objectives];
+        Arrays.fill(vector, Double.MAX_VALUE);
+        for(particle p: archiveParticles){
+            for(int i=0; i<num_objectives;i++){
+                if(vector[i] <p.getObjectives()[i]){
+                    vector[i] =p.getObjectives()[i];
+
+                }
+            }
+        }
+        return vector;
+    }
 }
 
