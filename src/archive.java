@@ -271,5 +271,26 @@ public class archive {
         }
 
     }
+    public int getArchiveSize(){
+        return archiveParticles.size();
+    }
+
+    public ArrayList<double[]> getEliteParticles(){
+        ArrayList<double[]> eliteParticles=new ArrayList<>();
+        updateCrowdingDistances();
+        Collections.sort(archiveParticles, new Comparator<particle>() {
+            @Override
+            public int compare(particle o1, particle o2) {
+                return Double.compare(o1.crowdingDistance,o2.crowdingDistance);
+            }
+        });
+        Collections.reverse(archiveParticles);
+
+        int topIndex= (int) Math.floor(0.15*archiveParticles.size());
+        for (int i=0; i<=topIndex; i++){
+            eliteParticles.add(archiveParticles.get(i).getPosition().clone());
+        }
+        return eliteParticles;
+    }
 }
 
