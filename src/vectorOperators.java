@@ -27,5 +27,21 @@ public class vectorOperators {
         return arrayToReturn;
     }
 
+    public double[] getMinimumOfEachObjective(particle[] particles, int numObjectives){
+        double[] arrayToReturn= new double[numObjectives];
 
+        for (int objectiveIndex=0; objectiveIndex< numObjectives; objectiveIndex++){
+            double minimumOfObjective=Double.MAX_VALUE;
+            for(int particleIndex=0; particleIndex<particles.length; particleIndex++){
+                double[] objectiveVector=particles[particleIndex].getObjectives();
+                if(objectiveVector[objectiveIndex] < minimumOfObjective){
+                    minimumOfObjective=objectiveVector[objectiveIndex];
+                }
+
+            }
+            arrayToReturn[objectiveIndex]=minimumOfObjective;
+
+        }
+        return arrayToReturn;
+    }
 }
