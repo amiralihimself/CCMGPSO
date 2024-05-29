@@ -44,4 +44,36 @@ public class vectorOperators {
         }
         return arrayToReturn;
     }
+
+    public double [] elementWiseSubtraction(double [] a, double[] b){
+        double [] arrayToReturn=new double[a.length];
+
+        for (int dimensionIndex=0; dimensionIndex< a.length; dimensionIndex++){
+            arrayToReturn[dimensionIndex]=a[dimensionIndex]-b[dimensionIndex];
+        }
+        return arrayToReturn;
+    }
+    public double [] elementWiseAddition(double [] a, double[] b){
+        double [] arrayToReturn=new double[a.length];
+
+        for (int dimensionIndex=0; dimensionIndex< a.length; dimensionIndex++){
+            arrayToReturn[dimensionIndex]=a[dimensionIndex]+b[dimensionIndex];
+        }
+        return arrayToReturn;
+    }
+    public double [] elementWiseMul(double [] a, double[] b){
+        double [] arrayToReturn=new double[a.length];
+
+        for (int dimensionIndex=0; dimensionIndex< a.length; dimensionIndex++){
+            arrayToReturn[dimensionIndex]=a[dimensionIndex]*b[dimensionIndex];
+        }
+        return arrayToReturn;
+    }
+    public double [] elementWiseDivision(double [] a, double[] b){
+        double [] arrayToReturn=new double[a.length];
+        for (int dimensionIndex=0; dimensionIndex< a.length; dimensionIndex++){
+            arrayToReturn[dimensionIndex]=a[dimensionIndex]/b[dimensionIndex];
+        }
+        return arrayToReturn;
+    }
 }
