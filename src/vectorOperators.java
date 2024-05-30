@@ -76,4 +76,35 @@ public class vectorOperators {
         }
         return arrayToReturn;
     }
+
+    public double magnitude(double [] vector){
+        double result=0;
+        for (int i=0; i<vector.length; i++){
+            result=result+(double)(Math.pow(vector[i],2));
+        }
+        result= (double) Math.sqrt(result);
+
+        return result;
+    }
+
+    public boolean checkIfDominates(double [] solution1, double[] solution2){
+        // this returns true if solution1 dominates solution2
+        boolean dominated=false;
+        int numberOfBetterObjectives=0;
+        int objective=0;
+        for (; objective< solution1.length;objective++){
+            if (solution1[objective]>solution2[objective]){
+                break;
+            }
+            else{
+                if(solution1[objective]<solution2[objective]){
+                    numberOfBetterObjectives=numberOfBetterObjectives+1;
+                }
+            }
+        }
+        if(objective== solution1.length&& numberOfBetterObjectives>0){
+            dominated=true;
+        }
+        return dominated ;
+    }
 }
