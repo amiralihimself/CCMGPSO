@@ -107,4 +107,26 @@ public class vectorOperators {
         }
         return dominated ;
     }
+/*This is an implementation of the Fisher–Yates shuffle algorithm, given a positive integer range, the
+following method returns a random shuffle of the integers {0,...,range}
+    */
+    public int [] Fisher_YatesShuffle(int range){
+        int [] dimensionsIndices=  IntStream.range(0, range).toArray();
+        int [] dimensionsIndicesShuffled=  new int[range];
+        int n =range;
+        int j=0;
+        Random randomno = new Random();
+        while(n>0){
+            int randomIndex=randomno.nextInt(range);
+            if(dimensionsIndices[randomIndex]!=-1){
+                dimensionsIndices[randomIndex]=-1;
+                n=n-1;
+                dimensionsIndicesShuffled[j]=randomIndex;
+                j=j+1;
+
+            }
+        }
+        return dimensionsIndicesShuffled;
+    }
+
 }
