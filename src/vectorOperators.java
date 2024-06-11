@@ -129,4 +129,16 @@ following method returns a random shuffle of the integers {0,...,range}
         return dimensionsIndicesShuffled;
     }
 
+    /* The following method will return a subarray of a given input array (fullArray)
+    given a subset of (not necessarily consecutive indices of fullArray. This method is used
+    in the implementation of CCMGPSO for referencing the smaller subswarms.
+     */
+    protected double[] trimArray(double[] fullArray, int[] listOfGroupIndices){
+     */
+        double [] trimmedArray= new double[listOfGroupIndices.length];
+        for (int i=0; i< listOfGroupIndices.length; i++){
+            trimmedArray[i]= fullArray[listOfGroupIndices[i]];
+        }
+        return trimmedArray;
+    }
 }
