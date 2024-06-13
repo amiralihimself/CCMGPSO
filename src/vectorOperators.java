@@ -136,7 +136,6 @@ public class vectorOperators {
     in the implementation of CCMGPSO for referencing the smaller subswarms.
      */
     protected double[] trimArray(double[] fullArray, int[] listOfGroupIndices){
-     */
         double [] trimmedArray= new double[listOfGroupIndices.length];
         for (int i=0; i< listOfGroupIndices.length; i++){
             trimmedArray[i]= fullArray[listOfGroupIndices[i]];

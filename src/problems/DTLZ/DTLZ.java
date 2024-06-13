@@ -1,3 +1,4 @@
+package problems.DTLZ;
 /* An implementation of the DTLZ test suite
 Parts of this implementation were inspired from the jMetal framework:
 https://github.com/jMetal/jMetal?tab=MIT-1-ov-file with the following license:
@@ -9,3 +10,27 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+import problems.problem;
+public abstract class DTLZ extends problem {
+    private int numberOfVariables;
+    private int numberOfObjectives;
+    DTLZ(int numberOfVariables, int numberOfObjectives){
+        this.numberOfVariables=numberOfVariables;
+        this.numberOfObjectives=numberOfObjectives;
+    }
+    protected int getNumberOfVariables(){
+        return  numberOfVariables;
+    }
+    protected int getNumberOfObjectives(){
+        return numberOfObjectives;
+    }
+    abstract public double[] evaluate(double[] variables);
+    protected double getLowerBoundForDimension(int index){
+        return 0;
+    }
+    protected double getUpperBoundForDimension(int index){
+        return 1;
+    }
+
+
+}
