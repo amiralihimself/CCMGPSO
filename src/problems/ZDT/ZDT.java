@@ -9,15 +9,16 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package problems.DTLZ;
+package problems.ZDT;
 
 import problems.problem;
-public abstract class DTLZ extends problem {
+
+public abstract class ZDT extends problem {
     private int numberOfVariables;
     private int numberOfObjectives;
-    DTLZ(int numberOfVariables, int numberOfObjectives){
+    ZDT(int numberOfVariables){
         this.numberOfVariables=numberOfVariables;
-        this.numberOfObjectives=numberOfObjectives;
+        this.numberOfObjectives=2;
     }
     protected int getNumberOfVariables(){
         return  numberOfVariables;
@@ -26,12 +27,8 @@ public abstract class DTLZ extends problem {
         return numberOfObjectives;
     }
     abstract public double[] evaluate(double[] variables);
-    protected double getLowerBoundForDimension(int index){
-        return 0;
-    }
-    protected double getUpperBoundForDimension(int index){
-        return 1;
-    }
+    protected abstract double getLowerBoundForDimension(int index);
+    protected abstract double getUpperBoundForDimension(int index);
 
 
 }
