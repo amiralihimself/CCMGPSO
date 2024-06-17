@@ -1,4 +1,4 @@
-package CCMGPSO;
+package ccmgpso;
 import problems.problem;
 import toolbox.archive;
 import toolbox.particle;
@@ -127,10 +127,7 @@ public class CCMGPSO{
         return contextVector;
     }
     public void algorithm() {
-        String fileName="";
 
-        fileName=optimizationProblem.getProblemName().toUpperCase().concat(".").concat(Integer.toString(numObjectives)).concat("D.pf");
-        qualityIndicator QualityIndicator=new qualityIndicator(fileName);
         initSwarms();
         initContextVectors();
         for (int objective=0; objective< numObjectives; objective++){
@@ -446,5 +443,5 @@ public class CCMGPSO{
 
 }
 
-}
+
 
