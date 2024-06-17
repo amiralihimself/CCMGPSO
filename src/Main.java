@@ -1,6 +1,6 @@
 import CCMGPSO.CCMGPSO;
 import problems.problem;
-import problems.DTLZ.*;
+import problems.dtlz.*;
 
 public class Main {
     public static void main(String[] args) {

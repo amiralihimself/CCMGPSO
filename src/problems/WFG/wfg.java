@@ -82,10 +82,10 @@ public abstract class WFG extends problem {
         return result;
     }
     abstract public double[] evaluate(double[] variables);
-    protected double getLowerBoundForDimension(int index){
+    public double getLowerBoundForDimension(int index){
         return 0;
     }
-    protected double getUpperBoundForDimension(int index){
+    public double getUpperBoundForDimension(int index){
         return 2*((double)index+1);
 
     }

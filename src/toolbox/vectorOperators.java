@@ -1,9 +1,10 @@
+package toolbox;
+
 // This class contains implementations of some vector operations commonly used in Evolutionary Algorithms
 // such as mutation, crossovoer, etc.
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 
@@ -135,7 +136,7 @@ public class vectorOperators {
     given a subset of (not necessarily consecutive indices of fullArray. This method is used
     in the implementation of CCMGPSO for referencing the smaller subswarms.
      */
-    protected double[] trimArray(double[] fullArray, int[] listOfGroupIndices){
+    public double[] trimArray(double[] fullArray, int[] listOfGroupIndices){
         double [] trimmedArray= new double[listOfGroupIndices.length];
         for (int i=0; i< listOfGroupIndices.length; i++){
             trimmedArray[i]= fullArray[listOfGroupIndices[i]];

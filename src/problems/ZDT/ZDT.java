@@ -27,8 +27,8 @@ public abstract class ZDT extends problem {
         return numberOfObjectives;
     }
     abstract public double[] evaluate(double[] variables);
-    protected abstract double getLowerBoundForDimension(int index);
-    protected abstract double getUpperBoundForDimension(int index);
+    public abstract double getLowerBoundForDimension(int index);
+    public abstract double getUpperBoundForDimension(int index);
 
 
 }

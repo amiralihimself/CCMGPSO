@@ -21,12 +21,12 @@ public class ZDT1 extends ZDT {
     }
 
     @Override
-    protected double getLowerBoundForDimension(int index) {
+    public double getLowerBoundForDimension(int index) {
         return 0;
     }
 
     @Override
-    protected double getUpperBoundForDimension(int index) {
+    public double getUpperBoundForDimension(int index) {
         return 1;
     }
 

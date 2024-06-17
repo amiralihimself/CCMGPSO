@@ -21,7 +21,7 @@ public class ZDT4 extends ZDT {
 
     }
 
-    protected double getLowerBoundForDimension(int index) {
+    public double getLowerBoundForDimension(int index) {
         if(index==0){
             return 0;
         }
@@ -30,7 +30,7 @@ public class ZDT4 extends ZDT {
         }
     }
 
-    protected double getUpperBoundForDimension(int index) {
+    public double getUpperBoundForDimension(int index) {
         if(index==0){
             return 1;
         }

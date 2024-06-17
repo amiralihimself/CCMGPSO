@@ -26,10 +26,10 @@ public abstract class DTLZ extends problem {
         return numberOfObjectives;
     }
     abstract public double[] evaluate(double[] variables);
-    protected double getLowerBoundForDimension(int index){
+    public double getLowerBoundForDimension(int index){
         return 0;
     }
-    protected double getUpperBoundForDimension(int index){
+    public double getUpperBoundForDimension(int index){
         return 1;
     }
 

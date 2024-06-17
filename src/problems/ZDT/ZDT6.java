@@ -18,11 +18,11 @@ public class ZDT6 extends ZDT {
         setProblemName("ZDT6");
     }
 
-    protected double getLowerBoundForDimension(int index) {
+    public double getLowerBoundForDimension(int index) {
         return 0;
     }
 
-    protected double getUpperBoundForDimension(int index) {
+    public double getUpperBoundForDimension(int index) {
         return 1;
     }
     public double[] evaluate(double[] solution) {

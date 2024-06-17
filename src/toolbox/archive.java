@@ -1,3 +1,5 @@
+package toolbox;
+
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 public class archive {
@@ -38,69 +40,7 @@ public class archive {
 
     }
 
-    public void maintainArchive(){
-        double[] maximumPerObjective=new vectorOperators().getMaximumOfEachObjective(archiveParticles.toArray(new particle[archiveParticles.size()]), num_objectives);
-        double[]  minimumPerObjective=new vectorOperators().getMinimumOfEachObjective(archiveParticles.toArray(new particle[archiveParticles.size()]), num_objectives);
-        double[] maxMinusMin= new vectorOperators().elementWiseSubtraction(maximumPerObjective, minimumPerObjective);
-        ArrayList<double[]> normalizedArchive= new ArrayList<>();
-        for (int i=0; i< archiveParticles.size(); i++){
-            double [] objectives= archiveParticles.get(i).getObjectives().clone();
-            double [] part1=new vectorOperators().elementWiseSubtraction(objectives, minimumPerObjective);
-            double [] normalizedObjectives= new vectorOperators().elementWiseDivision(part1, maxMinusMin);
-            for(int j=0; j< normalizedObjectives.length; j++){
-                if(maxMinusMin[j]==0){
-                    normalizedObjectives[j]=0.25;
-                    //normalizedObjectives[j]= ((double)1)/ (double) normalizedArchive.size();
-                }
-            }
-            normalizedArchive.add(normalizedObjectives);
-        }
-        applyDominanceResistanceError(normalizedArchive);
-        removeDominatedSolutions(normalizedArchive);
-    }
 
-    private void applyDominanceResistanceError(ArrayList<double[]> normalizedArchive){
-        for (int i=0; i< normalizedArchive.size(); i++){
-            double [] normalizedObjectives= normalizedArchive.get(i);
-            for(int j=0; j< num_objectives; j++){
-                if (normalizedObjectives[j]< 3e-6){
-                    normalizedObjectives[j]=0;
-                }
-            }
-        }
-    }
-
-    private void removeDominatedSolutions(ArrayList<double[]> normalizedArchive){
-
-        int [] dominationCounter= new int[normalizedArchive.size()];
-        ArrayList<Integer> indicesToRemove=new ArrayList<>();
-        for (int solution1=0; solution1< normalizedArchive.size(); solution1++){
-            double[] objectives1= normalizedArchive.get(solution1);
-            for (int solution2=0; solution2< normalizedArchive.size(); solution2++){
-                double[] objectives2= normalizedArchive.get(solution2);
-                if(solution1!= solution2){
-
-                    if(checkIfDominates(objectives2, objectives1)){
-
-                        dominationCounter[solution1]++;
-                    }
-                }
-            }
-
-            if (dominationCounter[solution1]>0){
-                indicesToRemove.add(solution1);
-            }
-
-        }
-        Collections.reverse(indicesToRemove);
-        for (int i=0; i< indicesToRemove.size();i++){
-
-            int indexToRemove= indicesToRemove.get(i);
-            normalizedArchive.remove(indexToRemove);
-            archiveParticles.remove(indexToRemove);
-        }
-
-    }
     private void removeDominatedSolutions(){
 
         int [] dominationCounter= new int[archiveParticles.size()];
@@ -135,7 +75,7 @@ public class archive {
     public void addToArchive(double [] objectives, double [] positions){
         double [] prospectiveParticle=objectives.clone();
         double [] position= positions.clone();
-        // first, let's check if the prospective particle is dominated by any other particles already in the archive
+        // first, let's check if the prospective particle is dominated by any other particles already in the toolbox.archive
         boolean newParticleIsDominated= false;
         for (int particleIndex=0; particleIndex<archiveParticles.size(); particleIndex++){
             double [] archiveParticleValues=archiveParticles.get(particleIndex).getObjectives();
@@ -148,8 +88,7 @@ public class archive {
         }
 
         if(!newParticleIsDominated){
-
-            //now that we are here, ne particle is not dominated by any of the particles in the archive
+            //now that we are here, ne particle is not dominated by any of the particles in the toolbox.archive
             // let's remove particles that are dominated by this new particle
             LinkedList<particle> archiveParticlesTemp= new LinkedList<>();
             for (int index=0; index< archiveParticles.size(); index++){
@@ -161,7 +100,7 @@ public class archive {
             particle newParticle =new particle(prospectiveParticle, position);
             archiveParticlesTemp.add(newParticle);
             archiveParticles= (LinkedList) archiveParticlesTemp.clone();
-            // if the number of the particles in the archive exceeds the maximum, remove the worst (the lowest crowding distance)
+            // if the number of the particles in the toolbox.archive exceeds the maximum, remove the worst (the lowest crowding distance)
             if (archiveParticles.size()>archiveSize){
                 removeTheWorstSolution();
             }
@@ -173,7 +112,7 @@ public class archive {
         for (int i=0; i<archiveParticles.size();i++){
             archiveParticles.get(i).crowdingDistance=0;
         }
-        // now for each objective I have to sort the archive based on its (the objective's) value
+        // now for each objective I have to sort the toolbox.archive based on its (the objective's) value
         for(int objective=0; objective<num_objectives;objective++){
             final int objectiveIndex=objective;
             Collections.sort(archiveParticles, new Comparator<particle>() {
@@ -199,11 +138,9 @@ public class archive {
 
                 }
             }
-
-
         }
-
     }
+
     public boolean checkIfDominates(double [] solution1, double[] solution2){
         // this returns true if solution1 dominates solution2
         boolean dominated=false;
@@ -263,48 +200,13 @@ public class archive {
 
 
     }
-    public void addAllParticles(ArrayList<particle> undominatedParticles){
-        archiveParticles.addAll(undominatedParticles);
-        removeDominatedSolutions();
-        while (archiveParticles.size()> archiveSize){
-            removeTheWorstSolution();
-        }
 
-    }
     public int getArchiveSize(){
         return archiveParticles.size();
     }
 
-    public ArrayList<double[]> getEliteParticles(){
-        ArrayList<double[]> eliteParticles=new ArrayList<>();
-        updateCrowdingDistances();
-        Collections.sort(archiveParticles, new Comparator<particle>() {
-            @Override
-            public int compare(particle o1, particle o2) {
-                return Double.compare(o1.crowdingDistance,o2.crowdingDistance);
-            }
-        });
-        Collections.reverse(archiveParticles);
 
-        int topIndex= (int) Math.floor(0.15*archiveParticles.size());
-        for (int i=0; i<=topIndex; i++){
-            eliteParticles.add(archiveParticles.get(i).getPosition().clone());
-        }
-        return eliteParticles;
-    }
 
-    public double[] getIdealVector(){
-        double[] vector=new double[num_objectives];
-        Arrays.fill(vector, Double.MAX_VALUE);
-        for(particle p: archiveParticles){
-            for(int i=0; i<num_objectives;i++){
-                if(vector[i] <p.getObjectives()[i]){
-                    vector[i] =p.getObjectives()[i];
 
-                }
-            }
-        }
-        return vector;
-    }
 }
 
