@@ -1,6 +1,21 @@
+import CCMGPSO.CCMGPSO;
+import problems.problem;
+import problems.DTLZ.*;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        int numDimensions=2000;
+        int numObjectives=2;
+        int numDimensionGroups=30;
+        int numContextVectors=2;
+        int iterationsPerObjective=10; //this is the lambda parameter
+        int archiveSize=50;
+        int tournamentSize=3;
+        int numIterations=2000;
+        int numParticles=100;
+        int runNumber=1; // this is a parameter for keeping track of the number of times wwe have run a specific instance
+        problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
+        new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
 
     }
 }
