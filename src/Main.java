@@ -1,8 +1,8 @@
-import CCMGPSO.CCMGPSO;
+import ccmgpso.CCMGPSO;
 import problems.problem;
 import problems.dtlz.*;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         int numDimensions=2000;
         int numObjectives=2;
@@ -16,6 +16,5 @@ public class Main {
         int runNumber=1; // this is a parameter for keeping track of the number of times wwe have run a specific instance
         problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
         new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
-
     }
 }
