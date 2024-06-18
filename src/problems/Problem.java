@@ -4,7 +4,7 @@ package problems;
 Specific optimization problems (such as the DTLZ suite, WFG test suite, etc are
 inheritors of this class
  */
-public abstract class problem {
+public abstract class Problem {
     protected String problemName;
 
     public abstract double[] evaluate(double[] variables);

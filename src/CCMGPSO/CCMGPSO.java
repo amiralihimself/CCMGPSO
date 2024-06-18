@@ -1,5 +1,5 @@
 package ccmgpso;
-import problems.problem;
+import problems.Problem;
 import toolbox.Archive;
 import toolbox.Particle;
 import toolbox.Swarm;
@@ -30,12 +30,12 @@ public class CCMGPSO{
     private double omega;
     private int archiveSize;
     private int numDimensionGroups;
-    private problem optimizationProblem;
+    private Problem optimizationProblem;
     private Archive archive;
 
     public CCMGPSO(int numDimensions, int numObjectives,
                    int numDimensionGroups, int numContextVectors,
-                   int iterationsPerObjective, problem optimizationProblem,
+                   int iterationsPerObjective, Problem optimizationProblem,
                    int archiveSize, int tournamentSize,
                    int numIterations, int numParticles, int runNumber){
 

@@ -11,8 +11,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 package problems.dtlz;
 
-import problems.problem;
-public abstract class DTLZ extends problem {
+import problems.Problem;
+public abstract class DTLZ extends Problem {
     private int numberOfVariables;
     private int numberOfObjectives;
     DTLZ(int numberOfVariables, int numberOfObjectives){

@@ -1,5 +1,5 @@
 /**
- * An implementation of the transformation used in the WFG test suite
+ * An implementation of the transformations used in the WFG test suite
  */
 /*
 Parts of this implementation were inspired from the jMetal framework:

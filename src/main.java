@@ -16,7 +16,7 @@ public class main {
         int numIterations=2000;
         int numParticles=100;
         int runNumber=1; // this is a parameter for keeping track of the number of times wwe have run a specific instance
-        problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
+        Problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
         new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
     }
 

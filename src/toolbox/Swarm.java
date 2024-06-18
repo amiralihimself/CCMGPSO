@@ -6,7 +6,7 @@ package toolbox;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
-import problems.problem;
+import problems.Problem;
 public class Swarm {
     private LinkedList<Particle> particles;
     private double globalBest;
@@ -24,7 +24,7 @@ public class Swarm {
     the subswarms with (n/k)-dimensional particles as defined in
     cooperative PSO.
      */
-    public Swarm(int num_particles, int num_dimensions, int num_objectives, double omega,  problem optimizationProblem, int [] dimensionGroupIndices){
+    public Swarm(int num_particles, int num_dimensions, int num_objectives, double omega,  Problem optimizationProblem, int [] dimensionGroupIndices){
         this.gBestObjectives=new double[num_objectives];
         Arrays.fill(gBestObjectives, Double.MAX_VALUE);
         this.contribution=0.0;
@@ -54,7 +54,7 @@ public class Swarm {
     recall that the CCMGPSO uses both n-dimensional and (n/k)-dimensional
     swarms.
      */
-    public Swarm(int num_particles, int num_dimensions, int num_objectives,  problem optimizationProblem){
+    public Swarm(int num_particles, int num_dimensions, int num_objectives,  Problem optimizationProblem){
         globalWorst=-1*Double.MAX_VALUE;
         globalWorstPos=new double[num_dimensions];
         this.num_particles=num_particles;
