@@ -6,7 +6,7 @@ as well as the velocity and position vectors, and the Omega parameter (as descri
 package toolbox;
 import java.util.*;
 import problems.problem;
-public class particle  {
+public class Particle  {
     private int num_dimensions;
     private int num_objectives;
     private double lambda;
@@ -20,7 +20,7 @@ public class particle  {
     private double[] pbest_position;
     private double[] pBestObjectives;
     //this field stores the crwoding distance of a particle if put in the toolbox.archive
-    public particle(int num_dimensions, int num_objectives, double omega,  problem optimizationProblem, int [] dimensionGroupIndices){
+    public Particle(int num_dimensions, int num_objectives, double omega,  problem optimizationProblem, int [] dimensionGroupIndices){
         this.pBestObjectives=new double[num_objectives];
         Arrays.fill(pBestObjectives, Double.MAX_VALUE);
         this.num_dimensions=num_dimensions;
@@ -50,7 +50,7 @@ public class particle  {
 
     }
 
-    public particle(double [] objectives, double [] position){
+    public Particle(double [] objectives, double [] position){
         this.objectives=objectives;
         this.velocity=new double[objectives.length];
         this.position=position;
@@ -58,7 +58,7 @@ public class particle  {
         this.pbest_position=position.clone();
     }
 
-    public particle(int num_dimensions, int num_objectives,   problem optimizationProblem){
+    public Particle(int num_dimensions, int num_objectives,   problem optimizationProblem){
         this.num_dimensions=num_dimensions;
         this.num_objectives=num_objectives;
         this.crowdingDistance=0.0;

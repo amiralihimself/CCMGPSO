@@ -2,19 +2,19 @@ package toolbox;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-public class archive {
+public class Archive {
     private int archiveSize;
-    private LinkedList<particle> archiveParticles = new LinkedList<>();
+    private LinkedList<Particle> archiveParticles = new LinkedList<>();
     private int num_dimensions;
     private int num_objectives;
 
-    public archive(int archiveSize, int num_dimensions, int num_objectives){
+    public Archive(int archiveSize, int num_dimensions, int num_objectives){
         this.archiveSize=archiveSize;
         new LinkedList<>();
         this.num_dimensions=num_dimensions;
         this.num_objectives=num_objectives;
     }
-    public LinkedList<particle> getArchiveParticles() {
+    public LinkedList<Particle> getArchiveParticles() {
         return archiveParticles;
     }
 
@@ -90,14 +90,14 @@ public class archive {
         if(!newParticleIsDominated){
             //now that we are here, ne particle is not dominated by any of the particles in the toolbox.archive
             // let's remove particles that are dominated by this new particle
-            LinkedList<particle> archiveParticlesTemp= new LinkedList<>();
+            LinkedList<Particle> archiveParticlesTemp= new LinkedList<>();
             for (int index=0; index< archiveParticles.size(); index++){
                 double [] archiveParticleValues= archiveParticles.get(index).getObjectives();
                 if(!checkIfDominates(prospectiveParticle, archiveParticleValues)){
                     archiveParticlesTemp.add((archiveParticles.get(index)));
                 }
             }
-            particle newParticle =new particle(prospectiveParticle, position);
+            Particle newParticle =new Particle(prospectiveParticle, position);
             archiveParticlesTemp.add(newParticle);
             archiveParticles= (LinkedList) archiveParticlesTemp.clone();
             // if the number of the particles in the toolbox.archive exceeds the maximum, remove the worst (the lowest crowding distance)
@@ -115,9 +115,9 @@ public class archive {
         // now for each objective I have to sort the toolbox.archive based on its (the objective's) value
         for(int objective=0; objective<num_objectives;objective++){
             final int objectiveIndex=objective;
-            Collections.sort(archiveParticles, new Comparator<particle>() {
+            Collections.sort(archiveParticles, new Comparator<Particle>() {
                 @Override
-                public int compare(particle o1, particle o2) {
+                public int compare(Particle o1, Particle o2) {
                     return Double.compare(o1.getObjectives()[objectiveIndex],o2.getObjectives()[objectiveIndex]);
                 }
             });
@@ -174,7 +174,7 @@ public class archive {
 
         for (int i=0; i<k; i++){
             int randomIndex = ThreadLocalRandom.current().nextInt(0, archiveCurrentSize);
-            particle solution=archiveParticles.get(randomIndex);
+            Particle solution=archiveParticles.get(randomIndex);
             double particleCrowdingDistance=archiveParticles.get(randomIndex).crowdingDistance;
 
             if (i==0){

@@ -1,6 +1,8 @@
 import ccmgpso.CCMGPSO;
-import problems.problem;
+import problems.*;
 import problems.dtlz.*;
+import problems.wfg.*;
+import problems.zdt.*;
 
 public class main {
     public static void main(String[] args) {
@@ -17,4 +19,5 @@ public class main {
         problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
         new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
     }
+
 }

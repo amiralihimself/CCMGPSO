@@ -2,15 +2,13 @@ package toolbox;
 
 // This class contains implementations of some vector operations commonly used in Evolutionary Algorithms
 // such as mutation, crossovoer, etc.
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.*;
 import java.util.stream.IntStream;
 
 
-public class vectorOperators {
+public class VectorOperators {
 
-    public double[] getMaximumOfEachObjective(particle[] particles, int numObjectives) {
+    public double[] getMaximumOfEachObjective(Particle[] particles, int numObjectives) {
         double[] arrayToReturn = new double[numObjectives];
 
         for (int objectiveIndex = 0; objectiveIndex < numObjectives; objectiveIndex++) {
@@ -28,7 +26,7 @@ public class vectorOperators {
         return arrayToReturn;
     }
 
-    public double[] getMinimumOfEachObjective(particle[] particles, int numObjectives) {
+    public double[] getMinimumOfEachObjective(Particle[] particles, int numObjectives) {
         double[] arrayToReturn = new double[numObjectives];
 
         for (int objectiveIndex = 0; objectiveIndex < numObjectives; objectiveIndex++) {
@@ -144,5 +142,5 @@ public class vectorOperators {
         return trimmedArray;
     }
 }
-}
+
 
