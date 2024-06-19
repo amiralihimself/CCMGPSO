@@ -7,31 +7,29 @@ package toolbox;
 import java.util.*;
 import problems.Problem;
 public class Particle  {
-    private int num_dimensions;
-    private int num_objectives;
+    private int numDimensions;
+    private int numObjectives;
     private double lambda;
     private double omega;
     public double crowdingDistance;
     private double[] position;
     private double [] objectives;
     private double[] velocity;
-    private double pbest;
-    private double[] localBestPosition;
-    private double[] pbest_position;
+    private double pBest;
+    private double[] pBestPosition;
     private double[] pBestObjectives;
     //this field stores the crwoding distance of a particle if put in the toolbox.archive
     public Particle(int num_dimensions, int num_objectives, double omega,  Problem optimizationProblem, int [] dimensionGroupIndices){
         this.pBestObjectives=new double[num_objectives];
         Arrays.fill(pBestObjectives, Double.MAX_VALUE);
-        this.num_dimensions=num_dimensions;
-        this.num_objectives=num_objectives;
-        localBestPosition=new double[num_dimensions];
+        this.numDimensions=num_dimensions;
+        this.numObjectives=num_objectives;
         Random random= new Random();
         this.lambda= random.nextDouble();
         this.omega=omega;
-        position=new double[this.num_dimensions];
-        velocity= new double[this.num_dimensions];
-        objectives= new double[this.num_objectives];
+        position=new double[this.numDimensions];
+        velocity= new double[this.numDimensions];
+        objectives= new double[this.numObjectives];
         //for zdt functions, all dimensions are in the range [0,1]
         //for wfg dimension i is in the range [0,2i] so it's a function of the dimension index
         //this is the reasoning behind lowerIndex and upperIndex
@@ -44,8 +42,8 @@ public class Particle  {
 
         }
         this.crowdingDistance=0.0;
-        this.pbest=Double.MAX_VALUE;
-        this.pbest_position=position.clone();
+        this.pBest=Double.MAX_VALUE;
+        this.pBestPosition=position.clone();
 
 
     }
@@ -55,18 +53,18 @@ public class Particle  {
         this.velocity=new double[objectives.length];
         this.position=position;
         this.crowdingDistance=0;
-        this.pbest_position=position.clone();
+        this.pBestPosition=position.clone();
     }
 
     public Particle(int num_dimensions, int num_objectives,   Problem optimizationProblem){
-        this.num_dimensions=num_dimensions;
-        this.num_objectives=num_objectives;
+        this.numDimensions=num_dimensions;
+        this.numObjectives=num_objectives;
         this.crowdingDistance=0.0;
         Random random= new Random();
         this.lambda= random.nextDouble();
-        position=new double[this.num_dimensions];
-        velocity= new double[this.num_dimensions];
-        objectives= new double[this.num_objectives];
+        position=new double[this.numDimensions];
+        velocity= new double[this.numDimensions];
+        objectives= new double[this.numObjectives];
         Random random1= new Random();
 
         for(int i=0; i<num_dimensions; i++){
@@ -76,8 +74,8 @@ public class Particle  {
             position[i]=lowerBound+ (upperBound-lowerBound)*random1.nextDouble();
 
         }
-        this.pbest=Double.MAX_VALUE;
-        this.pbest_position=position.clone();
+        this.pBest=Double.MAX_VALUE;
+        this.pBestPosition=position.clone();
 
 
     }
@@ -97,19 +95,19 @@ public class Particle  {
         return this.position.clone();
     }
 
-    public double [] getPbest_position(){
-        return this.pbest_position.clone();
+    public double [] getPbestPosition(){
+        return this.pBestPosition.clone();
     }
     public double getPbest(){
-        return pbest;
+        return pBest;
     }
 
-    public void setPbest(double pbest){
-        this.pbest = pbest;
+    public void setPbest(double pBest){
+        this.pBest = pBest;
     }
 
-    public void setPbest_position(double[] pbest_position){
-        this.pbest_position = pbest_position.clone();
+    public void setPbestPosition(double[] pBestPosition){
+        this.pBestPosition = pBestPosition.clone();
     }
 
     public double[] getObjectives(){
@@ -124,40 +122,5 @@ public class Particle  {
         this.position = position.clone();
     }
 
-    public void setCrowdingDistance(double crowdingDistance){
-        this.crowdingDistance = crowdingDistance;
-    }
 
-    public double getCrowdingDistance(){
-        return crowdingDistance;
-    }
-
-    public void setNum_dimensions(int num_dimensions){
-        this.num_dimensions = num_dimensions;
-    }
-
-    public void setNum_objectives(int num_objectives){
-        this.num_objectives = num_objectives;
-    }
-
-    public void setLambda(double lambda){
-        this.lambda = lambda;
-    }
-
-    public void setLocalBestPosition(double[] localBestPosition){
-        this.localBestPosition=localBestPosition.clone();
-    }
-
-    public double[] getLocalBestPosition(){
-        return localBestPosition.clone();
-    }
-
-
-    public double[] getpBestObjectives(){
-        return pBestObjectives.clone();
-    }
-
-    public void setpBestObjectives(double[] pBestObjectives){
-        this.pBestObjectives = pBestObjectives.clone();
-    }
 }

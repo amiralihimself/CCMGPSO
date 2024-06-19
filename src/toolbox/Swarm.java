@@ -11,12 +11,9 @@ public class Swarm {
     private LinkedList<Particle> particles;
     private double globalBest;
     private int[] dimensionGroupIndices;
-    private double [] gbestPosition;
-    public int num_dimensions;
-    private int num_particles;
-    private double[] globalWorstPos;
-    private double globalWorst;
-    private double contribution;
+    private double [] gBestPosition;
+    public int numDimensions;
+    private int numParticles;
     private double[] gBestObjectives;
 
     /*
@@ -24,28 +21,22 @@ public class Swarm {
     the subswarms with (n/k)-dimensional particles as defined in
     cooperative PSO.
      */
-    public Swarm(int num_particles, int num_dimensions, int num_objectives, double omega,  Problem optimizationProblem, int [] dimensionGroupIndices){
-        this.gBestObjectives=new double[num_objectives];
+    public Swarm(int numParticles, int numDimensions, int numObjectives, double omega,  Problem optimizationProblem, int [] dimensionGroupIndices){
+        this.gBestObjectives=new double[numObjectives];
         Arrays.fill(gBestObjectives, Double.MAX_VALUE);
-        this.contribution=0.0;
-        this.num_particles=num_particles;
-        this.num_dimensions=num_dimensions;
+        this.numParticles=numParticles;
+        this.numDimensions=numDimensions;
         this.dimensionGroupIndices=dimensionGroupIndices;
         particles=new LinkedList<>();
-        globalWorst=-1*Double.MAX_VALUE;
-        globalWorstPos=new double[num_dimensions];
-        for (int particleNumber=0; particleNumber<this.num_particles; particleNumber++){
-            Particle particle =new Particle(num_dimensions,  num_objectives,  omega,   optimizationProblem, dimensionGroupIndices);
+        for (int particleNumber=0; particleNumber<this.numParticles; particleNumber++){
+            Particle particle =new Particle(numDimensions,  numObjectives,  omega,   optimizationProblem, dimensionGroupIndices);
             particles.add(particle);
         }
         this.globalBest=Double.MAX_VALUE;
         Random random=new Random();
         if(particles.size()!=0){
             int randIndex=random.nextInt(particles.size());
-            this.gbestPosition=particles.get(randIndex).getPosition().clone();
-            int randIndex2=random.nextInt(particles.size());
-            this.globalWorstPos=particles.get(randIndex2).getPosition().clone();
-
+            this.gBestPosition=particles.get(randIndex).getPosition().clone();
         }
     }
 
@@ -54,26 +45,22 @@ public class Swarm {
     recall that the CCMGPSO uses both n-dimensional and (n/k)-dimensional
     swarms.
      */
-    public Swarm(int num_particles, int num_dimensions, int num_objectives,  Problem optimizationProblem){
-        globalWorst=-1*Double.MAX_VALUE;
-        globalWorstPos=new double[num_dimensions];
-        this.num_particles=num_particles;
-        this.num_dimensions=num_dimensions;
+    public Swarm(int numParticles, int numDimensions, int numObjectives,  Problem optimizationProblem){
+        this.numParticles=numParticles;
+        this.numDimensions=numDimensions;
 
 
         particles=new LinkedList<>();
-        for (int particleNumber=0; particleNumber<this.num_particles; particleNumber++){
-            Particle particle =new Particle(num_dimensions,  num_objectives,   optimizationProblem);
+        for (int particleNumber=0; particleNumber<this.numParticles; particleNumber++){
+            Particle particle =new Particle(numDimensions,  numObjectives,   optimizationProblem);
             particles.add(particle);
         }
         this.globalBest=Double.MAX_VALUE;
         Random random=new Random();
         if(particles.size()!=0){
             int randIndex=random.nextInt(particles.size());
-            this.gbestPosition=particles.get(randIndex).getPosition().clone();
+            this.gBestPosition=particles.get(randIndex).getPosition().clone();
         }
-        int randIndex2=random.nextInt(particles.size());
-        this.globalWorstPos=particles.get(randIndex2).getPosition().clone();
     }
 
 
@@ -81,8 +68,8 @@ public class Swarm {
         this.globalBest = globalBest;
     }
 
-    public void setGbestPosition(double[] gbestPosition) {
-        this.gbestPosition = gbestPosition.clone();
+    public void setGbestPosition(double[] gBestPosition) {
+        this.gBestPosition = gBestPosition.clone();
     }
 
     public void setDimensionGroupIndices(int[] dimensionGroupIndices) {
@@ -107,12 +94,9 @@ public class Swarm {
         return (LinkedList) particles;
     }
 
-    public void setParticles(LinkedList<Particle> particles) {
-        this.particles = (LinkedList) particles.clone();
-    }
 
     public double[] getGbestPosition() {
-        return gbestPosition;
+        return gBestPosition;
     }
 
 }
