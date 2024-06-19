@@ -11,9 +11,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 package problems.zdt;
 
-import problems.problem;
+import problems.Problem;
 
-public abstract class ZDT extends problem {
+public abstract class ZDT extends Problem {
     private int numberOfVariables;
     private int numberOfObjectives;
     ZDT(int numberOfVariables){
