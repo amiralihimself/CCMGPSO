@@ -24,11 +24,9 @@ public class CCMGPSO{
     private int counter;
     private double c1;
     protected int numIterations;
-    private String typeOfFunction;
     private double c2;
     private double c3;
     private double omega;
-    private int archiveSize;
     private int numDimensionGroups;
     private Problem optimizationProblem;
     private Archive archive;
@@ -45,7 +43,6 @@ public class CCMGPSO{
         this.numObjectives=numObjectives;
         this.optimizationProblem=optimizationProblem;
         this.tournamentSize=tournamentSize;
-        this.archiveSize=archiveSize;
         archive=new Archive(archiveSize, numDimensions, numObjectives);
         this.numDimensionGroups=numDimensionGroups;
         this.numDimensions=numDimensions;
@@ -55,7 +52,6 @@ public class CCMGPSO{
         this.omega=0.0;
         this.optimizationProblem=optimizationProblem;
         this.numIterations=numIterations;
-        typeOfFunction="CCMGPSO";
         numOfEvaluations=0;
         previousGlobalBest=new int[numObjectives];
         this.miniSubSwarms=new Swarm[numDimensionGroups];
@@ -138,9 +134,6 @@ public class CCMGPSO{
         int contextVectorIndex=0;
 
         for (int iteration=0; iteration<numIterations;iteration++){
-            //Archive.printArchive();
-            //  System.out.println(runNumber);
-            // System.out.println(iteration);
             for (int objectiveIndex=0; objectiveIndex< numObjectives; objectiveIndex++){
                 Swarm swarm= swarmsNDimensional[objectiveIndex];
                 int randomIndex  = ThreadLocalRandom.current().nextInt(0, swarm.getNum_particles());
@@ -154,7 +147,7 @@ public class CCMGPSO{
                     numOfEvaluations++;
                     if (evaluationResult[objectiveIndex] < personalBest){
                         particle.setPbest(evaluationResult[objectiveIndex]);
-                        particle.setPbest_position(currentPosition.clone());
+                        particle.setPbestPosition(currentPosition.clone());
 
                     }
                     if (evaluationResult[objectiveIndex] <globalBest){
@@ -213,7 +206,7 @@ public class CCMGPSO{
 
                 if (evaluationResult[objectiveToMinimize] < personalBest) {
                     particle.setPbest(evaluationResult[objectiveToMinimize]);
-                    particle.setPbest_position(currentPosition);
+                    particle.setPbestPosition(currentPosition);
                 }
                 double contextFitness = contextVectorObjectives[contextVectorIndex][objectiveToMinimize];
 
@@ -271,44 +264,8 @@ public class CCMGPSO{
         }
 
     }
-    protected void updateVelocity() {
-        for (int dimensionGroup=0; dimensionGroup< numDimensionGroups; dimensionGroup++){
-            Swarm swarm= miniSubSwarms[dimensionGroup];
-            int [] dimensionIndices=swarm.getDimensionGroupIndices();
-            int numParticles= swarm.getNum_particles();
-            double [] globalBest= swarm.getGbestPosition();
-            for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
-                Particle particle= swarm.getParticle(particleIndex);
-                double [] personalBest= particle.getPbest_position();
-                double [] currentPosition=particle.getPosition();
-                double lambda= particle.getLambda();
 
-                Random randomr1= new Random();
-                Random randomr2= new Random();
-                Random randomr3=new Random();
-                double [] velocity= particle.getVelocity();
-                double [] newVelocity= new double[dimensionIndices.length];
-                double [] archiveGuide= new VectorOperators().trimArray(archive.getArchiveGuide(tournamentSize), dimensionIndices);
-                for (int dimension=0; dimension< dimensionIndices.length; dimension++){
-                    double cognitiveTerm;
-                    double socialTerm;
-                    double archiveTerm;
-                    double r1=randomr1.nextDouble();
-                    double r2=randomr2.nextDouble();
-                    double r3=randomr3.nextDouble();
 
-                    cognitiveTerm=r1*this.c1*(personalBest[dimension]-currentPosition[dimension]);
-                    socialTerm=r2*this.c2*lambda*(globalBest[dimension]-currentPosition[dimension]);
-                    archiveTerm=r3*this.c3*(1-lambda)*(archiveGuide[dimension]-currentPosition[dimension]);
-                    newVelocity[dimension]=(this.omega*velocity[dimension])+cognitiveTerm+socialTerm+archiveTerm;
-
-                }
-                particle.setVelocity(newVelocity);
-
-            }
-
-        }
-    }
     protected void updateVelocity( int contextIndex) {
         for (int dimensionGroup=0; dimensionGroup< numDimensionGroups; dimensionGroup++){
             Swarm swarm= miniSubSwarms[dimensionGroup];
@@ -318,7 +275,7 @@ public class CCMGPSO{
 
             for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
                 Particle particle= swarm.getParticle(particleIndex);
-                double [] personalBest= particle.getPbest_position();
+                double [] personalBest= particle.getPbestPosition();
                 double [] currentPosition=particle.getPosition();
                 double lambda= particle.getLambda();
                 Random randomr1= new Random();
@@ -393,7 +350,7 @@ public class CCMGPSO{
             double [] globalBest= swarm.getGbestPosition();
             for(int particleIndex=0; particleIndex<numParticles; particleIndex++){
                 Particle particle= swarm.getParticle(particleIndex);
-                double [] personalBest= particle.getPbest_position();
+                double [] personalBest= particle.getPbestPosition();
                 double [] currentPosition=particle.getPosition();
                 double lambda= particle.getLambda();
                 Random randomr1= new Random();
