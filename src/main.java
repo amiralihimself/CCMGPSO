@@ -13,11 +13,9 @@ public class main {
         int iterationsPerObjective=10; //this is the lambda parameter
         int archiveSize=50;
         int tournamentSize=3;
-        int numIterations=2000;
+        int numIterations=1;
         int numParticles=100;
         int runNumber=1; // this is a parameter for keeping track of the number of times wwe have run a specific instance
-        Problem optimizationProblem= new DTLZ1(numDimensions, numObjectives);
-        new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
     }
 
 }

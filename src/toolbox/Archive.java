@@ -41,36 +41,6 @@ public class Archive {
     }
 
 
-    private void removeDominatedSolutions(){
-
-        int [] dominationCounter= new int[archiveParticles.size()];
-        ArrayList<Integer> indicesToRemove=new ArrayList<>();
-        for (int solution1=0; solution1< archiveParticles.size(); solution1++){
-            double[] objectives1= archiveParticles.get(solution1).getObjectives();
-            for (int solution2=0; solution2< archiveParticles.size(); solution2++){
-                double[] objectives2= archiveParticles.get(solution2).getObjectives();
-                if(solution1!= solution2){
-
-                    if(checkIfDominates(objectives2, objectives1)){
-
-                        dominationCounter[solution1]++;
-                    }
-                }
-            }
-
-            if (dominationCounter[solution1]>0){
-                indicesToRemove.add(solution1);
-            }
-
-        }
-        Collections.reverse(indicesToRemove);
-        for (int i=0; i< indicesToRemove.size();i++){
-
-            int indexToRemove= indicesToRemove.get(i);
-            archiveParticles.remove(indexToRemove);
-        }
-
-    }
 
     public void addToArchive(double [] objectives, double [] positions){
         double [] prospectiveParticle=objectives.clone();
@@ -88,8 +58,9 @@ public class Archive {
         }
 
         if(!newParticleIsDominated){
-            //now that we are here, ne particle is not dominated by any of the particles in the toolbox.archive
-            // let's remove particles that are dominated by this new particle
+            /*now that we are here, no particle is not dominated by any of the particles in the toolbox.archive
+             let's remove particles that are dominated by this new particle*/
+
             LinkedList<Particle> archiveParticlesTemp= new LinkedList<>();
             for (int index=0; index< archiveParticles.size(); index++){
                 double [] archiveParticleValues= archiveParticles.get(index).getObjectives();
@@ -163,10 +134,11 @@ public class Archive {
     }
 
     public double [] getArchiveGuide(int k){
-        // lets use tournament selection with crowding distance
-        // k is the number of particles or solutions to choose for the tournament
-        // the one with the highest crowding distance wins
-        //https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ThreadLocalRandom.html#nextInt(int,int)
+        /** we use tournament selection with crowding distance
+         *k is the number of particles or solutions to choose for the tournament
+         the one with the highest crowding distance wins **/
+
+
         int archiveCurrentSize= this.archiveParticles.size();
         double [] listToReturn=new double[this.num_dimensions];
         double maximumCrowdingDistance=0.0;
