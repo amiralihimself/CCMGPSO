@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 public class CCMGPSO{
-    private int numOfEvaluations;
     private Swarm[] swarmsNDimensional;
     protected int[] previousGlobalBest;
     private int numParticles;
@@ -19,9 +18,7 @@ public class CCMGPSO{
     private int runNumber;
     private int numDimensions;
     private int numObjectives;
-    private int[] temp;
     private int tournamentSize;
-    private int counter;
     private double c1;
     protected int numIterations;
     private double c2;
@@ -52,7 +49,6 @@ public class CCMGPSO{
         this.omega=0.0;
         this.optimizationProblem=optimizationProblem;
         this.numIterations=numIterations;
-        numOfEvaluations=0;
         previousGlobalBest=new int[numObjectives];
         this.miniSubSwarms=new Swarm[numDimensionGroups];
         swarmsNDimensional= new Swarm[numObjectives];
@@ -61,10 +57,8 @@ public class CCMGPSO{
         this.iterationsPerObjective= iterationsPerObjective ;
         this.contextVectorObjectives=new double[numContextVectors][numObjectives];
         this.runNumber=runNumber;
-        temp=new int[numContextVectors];
-        counter=0;
-
     }
+
     private void initSwarms(){
         int[] dimensionIndicesShuffled=new VectorOperators().Fisher_YatesShuffle(numDimensions);
         int K_1= numDimensions % numDimensionGroups;
@@ -144,7 +138,6 @@ public class CCMGPSO{
                     double[] currentPosition= particle.getPosition().clone();
                     double [] evaluationResult= optimizationProblem.evaluate(currentPosition);
                     double personalBest= particle.getPbest();
-                    numOfEvaluations++;
                     if (evaluationResult[objectiveIndex] < personalBest){
                         particle.setPbest(evaluationResult[objectiveIndex]);
                         particle.setPbestPosition(currentPosition.clone());
@@ -168,7 +161,6 @@ public class CCMGPSO{
             if (iteration%iterationsPerObjective==0){
                 resetPersonalBests();
                 contextVectorIndex  = ThreadLocalRandom.current().nextInt(0, allContextVectors.length);
-                temp[contextVectorIndex]+=iterationsPerObjective;
             }
             int temp= iteration/iterationsPerObjective;
             objectiveToMinimize=temp%numObjectives;
@@ -180,18 +172,11 @@ public class CCMGPSO{
             updatePositionNDimensional();
         }
 
-
+        System.out.println("The final archive is:");
         archive.printArchive();
-        System.out.println(numOfEvaluations);
-        System.out.println(Arrays.toString(temp));
-        System.out.println(counter);
     }
 
     private void runMiniSubSwarms(int objectiveToMinimize, int contextVectorIndex) {
-        double contextFitness2 = contextVectorObjectives[contextVectorIndex][objectiveToMinimize];
-        if(contextFitness2==0){
-            counter++;
-        }
         for (int dimensionGroup = 0; dimensionGroup < numDimensionGroups; dimensionGroup++) {
             Swarm swarm = miniSubSwarms[dimensionGroup];
             int numParticles = swarm.getNum_particles();
@@ -201,7 +186,6 @@ public class CCMGPSO{
                 double[] currentPosition = particle.getPosition().clone();
                 double[] vectorToEvaluate = b(contextVectorIndex, dimensionIndices, currentPosition);
                 double[] evaluationResult = optimizationProblem.evaluate(vectorToEvaluate);
-                numOfEvaluations++;
                 double personalBest = particle.getPbest();
 
                 if (evaluationResult[objectiveToMinimize] < personalBest) {
@@ -373,7 +357,6 @@ public class CCMGPSO{
                     double r1=randomr1.nextDouble();
                     double r2=randomr2.nextDouble();
                     double r3=randomr3.nextDouble();
-
                     cognitiveTerm=r1*this.c1*(personalBest[dimension]-currentPosition[dimension]);
                     socialTerm=r2*this.c2*lambda*(globalBest[dimension]-currentPosition[dimension]);
                     archiveTerm=r3*this.c3*(1-lambda)*(archiveGuide[dimension]-currentPosition[dimension]);
