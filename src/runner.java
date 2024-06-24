@@ -19,7 +19,8 @@ public class runner {
             Problem optimizationProblem= getProblemHandle(problemName, numDimensions, numObjectives);
 
             for (int runNumber=1; runNumber<= numberOfRuns; runNumber++){
-
+                System.out.println("Run number " + runNumber + " on " + optimizationProblem.getProblemName() + " with " + numDimensions + " dimensions and " + numObjectives + " objectives");
+                new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
             }
 
     }
