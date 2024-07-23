@@ -1,8 +1,3 @@
-import ccmgpso.CCMGPSO;
-import problems.*;
-import problems.dtlz.*;
-import problems.wfg.*;
-import problems.zdt.*;
 
 public class main {
     public static void main(String[] args) {
@@ -20,7 +15,7 @@ public class main {
         int numParticles=100;
         int numberOfRuns=1; // specify how many times do you want to run this problem instance
 
-        new runner( numDimensions,  numObjectives,  numDimensionGroups,  numContextVectors,
+        new Runner( numDimensions,  numObjectives,  numDimensionGroups,  numContextVectors,
                     iterationsPerObjective,  archiveSize,  tournamentSize,  numIterations,
                     numParticles,  numberOfRuns,  problemName);
     }

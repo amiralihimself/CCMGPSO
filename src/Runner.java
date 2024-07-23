@@ -10,18 +10,18 @@ import problems.wfg.*;
 import problems.dtlz.*;
 import problems.zdt.*;
 
-public class runner {
+public class Runner {
 
-    public runner(int numDimensions, int numObjectives, int numDimensionGroups, int numContextVectors,
+    public Runner(int numDimensions, int numObjectives, int numDimensionGroups, int numContextVectors,
                   int iterationsPerObjective, int archiveSize, int tournamentSize, int numIterations,
                   int numParticles, int numberOfRuns, String problemName){
 
-            Problem optimizationProblem= getProblemHandle(problemName, numDimensions, numObjectives);
+        Problem optimizationProblem= getProblemHandle(problemName, numDimensions, numObjectives);
 
-            for (int runNumber=1; runNumber<= numberOfRuns; runNumber++){
-                System.out.println("Run number " + runNumber + " on " + optimizationProblem.getProblemName() + " with " + numDimensions + " dimensions and " + numObjectives + " objectives");
-                new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
-            }
+        for (int runNumber=1; runNumber<= numberOfRuns; runNumber++){
+            System.out.println("Run number " + runNumber + " on " + optimizationProblem.getProblemName() + " with " + numDimensions + " dimensions and " + numObjectives + " objectives");
+            new CCMGPSO(numDimensions, numObjectives, numDimensionGroups, numContextVectors, iterationsPerObjective, optimizationProblem, archiveSize, tournamentSize, numIterations, numParticles,  runNumber).algorithm();
+        }
 
     }
 
@@ -78,7 +78,7 @@ public class runner {
 
             case "dtlz3":
                 optimzationProblem=new DTLZ3(numDimensions, numObjectives);
-             break;
+                break;
 
             case "dtlz4":
                 optimzationProblem=new DTLZ4(numDimensions, numObjectives);
@@ -120,7 +120,7 @@ public class runner {
                 throw new IllegalArgumentException("Invalid problem name.");
 
         }
-    return optimzationProblem;
+        return optimzationProblem;
     }
 
 }
